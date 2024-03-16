@@ -15,3 +15,7 @@ Themed.tsx
 useColorScheme.web.tsx
 EditScreenInfo.tsx
 model.tsx
+
+then i started with index.tsx of (tabs) and tried to render a single product on the image
+
+then i created a common component for ProductListItem, and also made a types.ts file and write the type of the product, and created a type ProductListItemProps in the component which tells the type of the product.
