@@ -1,17 +1,9 @@
-import { View, } from '@/src/components/Themed';
-import products from '@/assets/data/products';
-import ProductListItem from '@/src/components/ProductListItem';
+import { Redirect } from "expo-router";
 
+import { View, Text } from 'react-native'
 
-export default function MenuScreen() {
+export default function TabIndex() {
   return (
-    <View>
-      <ProductListItem product={products[1]}/>
-      <ProductListItem product={products[2]}/>
-    </View>
-  );
+    <Redirect href={'/menu/'}/>
+  )
 }
-
-// Margin is the space outside the container
-// Padding is the space inside the container
-
