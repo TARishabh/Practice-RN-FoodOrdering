@@ -86,3 +86,13 @@ export type Product = {
   image:string | null;
   price:number;
 }
+
+export type PizzaSize = 'S' |'M'|'L'|'XL';
+
+export type CartItem = {
+  product:Product,
+  id:string,
+  size:PizzaSize,
+  product_id: number;
+  quantity:number;
+}
