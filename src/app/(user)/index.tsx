@@ -4,6 +4,6 @@ import { View, Text } from 'react-native'
 
 export default function TabIndex() {
   return (
-    <Redirect href={'/menu/'}/>
+    <Redirect href={'/(user)/menu/'}/>
   )
 }
