@@ -1,16 +1,26 @@
-import { StyleSheet, Text, View,Image, Pressable } from 'react-native'
+import { StyleSheet, Text, View,Image, Pressable, ActivityIndicator } from 'react-native'
 import React, { useState } from 'react'
 import { Link, Stack, useLocalSearchParams, useRouter } from 'expo-router'
 import products from '@/assets/data/products';
 import Button from '@/src/components/Button';
 import { FontAwesome } from '@expo/vector-icons';
 import Colors from '@/src/constants/Colors';
+import { useProduct } from '@/src/api/products';
 
 export default function ProductDetailsScreen() {
   const router = useRouter();
   const {id} = useLocalSearchParams();
+  const idTest = parseFloat(typeof id === 'string' ? id : id[0])
 
-  const product = products.find((p)=>p.id.toString() === id.toString())
+  const {data:product,error,isLoading} = useProduct(idTest)
+
+  if (isLoading){
+    return <ActivityIndicator/>
+  }
+
+  if (error){
+    return <Text>Failed to fetch products</Text>
+  }
   return (
     <View>
         <Stack.Screen options={{title:`${product?.name}`,headerTitleAlign:'center',

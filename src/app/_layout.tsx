@@ -1,12 +1,14 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { Redirect, Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 
 import { useColorScheme } from '@/src/components/useColorScheme';
 import CartProvider from '../provider/CartProvider';
+import AuthProvider, { useAuth } from '../provider/AuthProvider';
+import QueryProvider from '../provider/QueryProvider';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -48,8 +50,12 @@ export default function RootLayout() {
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
+
+
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <AuthProvider>
+        <QueryProvider>
       <CartProvider>
       <Stack>
         <Stack.Screen name="(admin)" options={{ headerShown: false }} />
@@ -58,6 +64,8 @@ function RootLayoutNav() {
         <Stack.Screen name="cartModal" options={{ presentation: 'modal' }} />
       </Stack>
       </CartProvider>
+      </QueryProvider>
+      </AuthProvider>
     </ThemeProvider>
   );
 }

@@ -1,17 +1,34 @@
 import { View, Text, TextInput, StyleSheet, Image, Alert } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from '@/src/components/Button'
 import { defaultImage } from '@/src/components/ProductListItem'
 import Colors from '@/src/constants/Colors'
 import * as ImagePicker from 'expo-image-picker';
-import { useLocalSearchParams, useSegments } from 'expo-router'
+import { router, useLocalSearchParams, useSegments } from 'expo-router'
+import { useDeleteProduct, useInsertProduct, useProduct, useUpdateProduct } from '@/src/api/products'
+import { useRouter } from 'expo-router'
 export default function CreateItem() {
     const [name, setName] = useState('')
     const [price, setPrice] = useState('')
     const [errors, setErrors] = useState('')
     const [image, setImage] = useState<string | null>(null);
-    const { id } = useLocalSearchParams();
+    const {id: idString} = useLocalSearchParams();
+    const id = parseFloat(typeof idString === 'string' ? idString : idString[0])
+
+    const {mutate: insertProduct } = useInsertProduct();
+    const {mutate: updateProduct } = useUpdateProduct();
+    const {mutate: deleteProduct } = useDeleteProduct();
+    const {data: updatingProduct} = useProduct(id)
     const isUpdating = !!id;
+    const router = useRouter();
+
+    useEffect(()=>{
+        if (updatingProduct){
+            setName(updatingProduct.name)
+            setImage(updatingProduct.image)
+            setPrice(updatingProduct.price.toString())
+        }
+    },[updatingProduct])
 
     const onsubmit = () => {
         if (isUpdating) {
@@ -27,16 +44,27 @@ export default function CreateItem() {
         if (!validateInput()) {
             return;
         }
-        // Save in databse
-        resetFields();
+        updateProduct({
+            id,name, price:parseFloat(price),image,
+        },{
+            onSuccess: () =>{
+                resetFields();
+                router.back()
+            }
+        }
+        )
     }
     const onCreate = () => {
         console.warn("Creating Product")
         if (!validateInput()) {
             return;
         }
-        // Save in databse
-        resetFields();
+        insertProduct({name,price: parseFloat(price),image},{
+            onSuccess: () =>{
+                resetFields();
+                router.back();
+            }
+        })
     }
     const resetFields = () => {
         setName('')
@@ -75,6 +103,12 @@ export default function CreateItem() {
         }
     };
     const onDelete = () =>{
+        deleteProduct(id,{
+            onSuccess:()=>{
+                resetFields()
+                router.replace('/(admin)')
+            }
+        })
         console.warn("DELETE !!!!")
     }
     const confirmDelete = () =>{
