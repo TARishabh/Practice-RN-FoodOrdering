@@ -1,14 +1,23 @@
-import { View, } from '@/src/components/Themed';
+import { Text, View, } from '@/src/components/Themed';
 import orders from '@/assets/data/orders';
 import ProductListItem from '@/src/components/ProductListItem';
-import { FlatList } from 'react-native';
+import { ActivityIndicator, FlatList } from 'react-native';
 import OrderListItem from '@/src/components/OrderListItem';
 import Button from '@/src/components/Button';
 import { Link } from 'expo-router';
+import { useAdminOrderList } from '@/src/api/orders';
 
 
 export default function OrderScreen() {
-  console.log(orders.length);
+  const {data:orders,error,isLoading} = useAdminOrderList({archived:true});
+  if (isLoading){
+    return <ActivityIndicator/>
+  }
+
+  if (error){
+    return <Text>Failed to fetch products</Text>
+  }
+
   return (
     <View style={{flex:1,backgroundColor:'rgb(211, 211, 211)',width:'100%'}}>
       <FlatList data={orders}

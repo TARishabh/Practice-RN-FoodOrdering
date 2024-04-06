@@ -53,11 +53,13 @@ function RootLayoutNav() {
 
 
   return (
+
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <AuthProvider>
         <QueryProvider>
       <CartProvider>
       <Stack>
+      <Stack.Screen name="index" options={{title:"HOME",headerTitleAlign:'center'}}/>
         <Stack.Screen name="(admin)" options={{ headerShown: false }} />
         <Stack.Screen name="(user)" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />

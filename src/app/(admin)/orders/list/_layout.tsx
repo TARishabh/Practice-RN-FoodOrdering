@@ -6,8 +6,8 @@ const TopTab = withLayoutContext(createMaterialTopTabNavigator().Navigator);
 
 export default function OrderListNavigator() {
   return (
-      <SafeAreaView edges={['top']} style={{flex:1}}>
+      // <SafeAreaView edges={['top']} style={{flex:1}}>
         <TopTab/>
-    </SafeAreaView>
+     // </SafeAreaView> 
   )
 }

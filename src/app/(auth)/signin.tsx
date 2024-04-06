@@ -16,7 +16,6 @@ const SignInScreen = () => {
         if (error){
             Alert.alert(error.message)
         }
-        console.log(data)
         setLoading(false);
     }
 

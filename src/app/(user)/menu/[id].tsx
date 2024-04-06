@@ -9,12 +9,15 @@ import { useProduct } from '@/src/api/products';
 
 export default function ProductDetailsScreen() {
   const router = useRouter();
-  const {idString} = useLocalSearchParams();
+  const {id:idString} = useLocalSearchParams();
   const id = parseFloat(typeof idString === 'string' ? idString : idString[0])
 
   const {data:product,error,isLoading} = useProduct(id)
   const {addItem} = useCart();
   const addToCart = () =>{
+    if (!product){
+      return
+    }
     addItem(product,selectedSize);
     router.push('/cartModal')
   }

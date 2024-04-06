@@ -4,7 +4,7 @@ import { useCart } from '../provider/CartProvider';
 import CartListItem from '../components/CartListItem';
 import Button from '../components/Button';
 export default function cartModal() {
-    const {items,total} = useCart();
+    const {items,total,checkout} = useCart();
   return (
         <View style={{padding:10}}>
         <FlatList data={items}
@@ -13,7 +13,7 @@ export default function cartModal() {
         )}
         contentContainerStyle={{padding:10,gap:10}}/>
         <Text style={{marginTop:20, fontWeight:'600',fontSize:20}} >Total: ${total}</Text>
-        {items.length > 0 && <Button text='Checkout'></Button>}
+        {items.length > 0 && <Button onPress={checkout} text='Checkout'></Button>}
     </View>
     )
 }
