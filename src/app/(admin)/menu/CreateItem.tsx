@@ -13,7 +13,10 @@ export default function CreateItem() {
     const [errors, setErrors] = useState('')
     const [image, setImage] = useState<string | null>(null);
     const {id: idString} = useLocalSearchParams();
-    const id = parseFloat(typeof idString === 'string' ? idString : idString[0])
+    // if (typeof idString === 'undefined'){
+    //     return <Text> HELLLO</Text>
+    // }
+    const id = parseFloat(typeof idString === 'string' ? idString : idString?.[0])
 
     const {mutate: insertProduct } = useInsertProduct();
     const {mutate: updateProduct } = useUpdateProduct();
@@ -137,6 +140,17 @@ export default function CreateItem() {
             <Button style={{ marginTop: 1 }} text={isUpdating ? "Update" : "Create"} onPress={onsubmit} />
             {isUpdating && <Text onPress={confirmDelete} style={styles.textButton}>Delete</Text>}
         </View>
+        // <View style={styles.container}>
+        //     <Image style={styles.image} source={{ uri: defaultImage }} />
+        //     <Text  style={styles.textButton}>Select Image</Text>
+        //     <Text style={styles.label}>Name</Text>
+        //     <TextInput style={styles.input}  placeholder='Name' />
+
+        //     <Text style={styles.label}>Price ($)</Text>
+        //     <TextInput style={styles.input} placeholder='$9.99' keyboardType='numeric' />
+        //     <Text style={{ color: 'red' }}></Text>
+        //     <Button style={{ marginTop: 1 }} text={ "Create"} />
+        // </View>
     )
 
 }
