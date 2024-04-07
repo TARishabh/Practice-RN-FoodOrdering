@@ -27,7 +27,7 @@ export default function AuthProvider({children}:PropsWithChildren){
         const fetchsession = async () =>{
             const {data:{session}} = await supabase.auth.getSession();
             setSession(session)
-
+            
             if (session){
                 const {data} = await supabase.from('profiles')
                 .select('*')

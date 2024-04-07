@@ -6,9 +6,11 @@ import orders from '@/assets/data/orders';
 import { Stack } from 'expo-router';
 import OrderItemListItem from '@/src/components/OrderItemListItem';
 import { useOrder } from '@/src/api/orders';
+import { useUpdateOrderSubscription } from '@/src/api/orders/subscription';
 export default function OrdersDetailsScreen() {
   const {id:idString} = useLocalSearchParams();
   const id = parseFloat(typeof idString === 'string' ? idString : idString[0])
+  useUpdateOrderSubscription(id)
 
   const {data:order,error,isLoading} = useOrder(id);
 
