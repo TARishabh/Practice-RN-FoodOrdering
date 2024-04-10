@@ -9,44 +9,51 @@ import { useProduct } from '@/src/api/products';
 
 export default function ProductDetailsScreen() {
   const router = useRouter();
-  const {id:idString} = useLocalSearchParams();
-  const id = parseFloat(typeof idString === 'string' ? idString : idString[0])
+  const { id: idString } = useLocalSearchParams();
+  const id = parseFloat(typeof idString === 'string' ? idString : idString[0]);
 
-  const {data:product,error,isLoading} = useProduct(id)
-  const {addItem} = useCart();
-  const addToCart = () =>{
-    if (!product){
-      return
+  const { data: product, error, isLoading } = useProduct(id);
+  const { addItem } = useCart();
+  const [selectedSize, setSelectedSize] = useState<PizzaSize>('M');
+
+  if (isLoading) {
+    return <ActivityIndicator />;
+  }
+
+  if (error) {
+    return <Text>Failed to fetch products</Text>;
+  }
+
+  const addToCart = () => {
+    if (!product) {
+      return;
     }
-    addItem(product,selectedSize);
-    router.push('/cartModal')
-  }
+    addItem(product, selectedSize);
+    router.push('/cartModal');
+  };
 
-  if (isLoading){
-    return <ActivityIndicator/>
-  }
+  const sizes: PizzaSize[] = ['S', 'M', 'L', 'XL'];
 
-  if (error){
-    return <Text>Failed to fetch products</Text>
-  }
-  const sizes:PizzaSize[] = ['S','M','L','XL']
-  const [selectedSize,setSelectedSize] = useState<PizzaSize>('M');
   return (
     <View>
-        <Stack.Screen options={{title:`${product?.name}`,headerTitleAlign:'center'}}/>
-        <Image style={styles.image} source={{uri:product?.image}} />
-        <Text style={{fontSize:16,marginLeft:20}}>Select Size:</Text>
-        <View style={styles.sizes}>
-          {sizes.map((size)=>(
-            <Pressable key={size} onPress={()=>setSelectedSize(size)} style={[styles.size,{backgroundColor: selectedSize === size ? 'gainsboro':'white'}]}>
-              <Text style={[styles.sizeText,{color:selectedSize === size ? 'black':'grey'}]}>{size}</Text>
-            </Pressable>
-          ))}
-        </View>
+      <Stack.Screen options={{ title: `${product?.name}`, headerTitleAlign: 'center' }} />
+      <Image style={styles.image} source={{ uri: product?.image }} />
+      <Text style={{ fontSize: 16, marginLeft: 20 }}>Select Size:</Text>
+      <View style={styles.sizes}>
+        {sizes.map((size) => (
+          <Pressable
+            key={size}
+            onPress={() => setSelectedSize(size)}
+            style={[styles.size, { backgroundColor: selectedSize === size ? 'gainsboro' : 'white' }]}
+          >
+            <Text style={[styles.sizeText, { color: selectedSize === size ? 'black' : 'grey' }]}>{size}</Text>
+          </Pressable>
+        ))}
+      </View>
       <Text style={styles.price}>${product?.price}</Text>
-      <Button onPress={addToCart} text='Add to Cart'/>
+      <Button onPress={addToCart} text='Add to Cart' />
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({

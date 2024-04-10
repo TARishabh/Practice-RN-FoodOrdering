@@ -30,3 +30,17 @@ now i created a [id].tsx file which maps to individual product details
 So the main difference between _layout.tsx and index.tsx is,
 
 imagine a page, now all the buttons on top and bottom are shown using _layout.tsx file and all the content in the safeAreaView (in middle) is shown by index.tsx
+
+
+To integrate stripe with supabase:
+
+also run the command, npx supabase functions serve --env-file .env payment-sheet
+
+1. Understand the diagram from notion/just-not-dev of stripe intent.
+2. run command npx supbase functions new "payment-name", this will call the api from stripe from payment intent.
+3. now use that curl command in supabase -> functions -> index.ts, hit it to check if it is returning the response.
+4. now we have to make a function which connects to our stripe account.
+5. now install react-native-stripe provider and wrap the whole providers inside stripe provider.
+6. now i created a file stripe.ts in lib folder, and created the function initializePaymentSheet, which is called when user presses checkout.
+7. now i created fetchPaymentSheetParams function.
+8. now i created openpaymentsheet.
